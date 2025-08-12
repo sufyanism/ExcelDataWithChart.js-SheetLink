@@ -16,16 +16,10 @@ This project demonstrates how to fetch and visualize Excel data from a Google Sh
 1. A publicly accessible Google Sheets XLSX link
 2. Browser
 
+# Screenshot
+![ExcelDataWithChart js-Googlelink](https://github.com/user-attachments/assets/f7978d1d-472a-407a-80a2-9c154f6d5169)
 
-#Screenshot
-https://github.com/user-attachments/assets/9cc12d28-6f2d-4a08-8a83-45f8908d6a4e
-
-
-#Screecast
-https://github.com/user-attachments/assets/222d8a82-db1a-4c32-b1d4-da6bd6f8f373
-
-
-
-
+# Screencast
+https://github.com/user-attachments/assets/65e873f4-f497-4195-ba7b-d626af737076
 
 
