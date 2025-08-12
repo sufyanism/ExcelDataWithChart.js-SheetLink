@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Representing Excel Data with Two Datasets</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body{
+        font-family: Arial, sans-serif;
+    margin: 40px;
+    text-align: center;
+  }
+  #chartContainer {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+  }
+    /* Heading */
+
+/* === BASE HEADING === */ 
+
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 32px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* === HEADING STYLE #1 === */
+.one{
+    padding-bottom: 20px;
+}
+.one p {
+  font-size: 20px;
+}
+.one h1 {
+  text-align: center;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+</style>
+</head>
+<body>
+    <div class="one">
+<h1> Representing Excel Data with Two Datasets - Using Google Link </h1>
+<p> zeba.academy </p>
+</div>
+<div id="chartContainer">
+
+</div>
+<canvas id="myChart" width="800" height="500"></canvas>
+<script>
+const fileUrl = 'Add your Google Sheets link here';
+
+(function loadAndRender() {
+  fetch(fileUrl)
+    .then(response => response.arrayBuffer())
+    .then(data => {
+      const workbook = XLSX.read(data, {type: 'array'});
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, {header:1});
+
+      const headers = jsonData[0];
+      const values = jsonData.slice(1);
+
+      // Extract labels from first column
+      const labels = values
+        .map(row => row[0])
+        .filter(label => label !== undefined);
+
+      // Filter valid data rows
+      const filteredValues = values.filter(row => {
+        return row[0] !== undefined && row.slice(1).every(val => val !== undefined && !isNaN(Number(val)));
+      });
+
+      // Assign a unique color for each dataset
+      const datasetColors = [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(199, 199, 199, 0.6)',
+        'rgba(83, 102, 255, 0.6)'
+      ];
+
+      // Prepare datasets with fixed colors per dataset
+      const datasets = headers.slice(1).map((header, index) => {
+        const data = filteredValues.map(row => Number(row[index + 1]));
+        const color = datasetColors[index % datasetColors.length];
+        return {
+          label: header,
+          data: data,
+          backgroundColor: color,
+          borderColor: color.replace('0.2', '1'), // make border more prominent
+          borderWidth: 1
+        };
+      });
+
+      // Create chart
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    })
+    .catch(error => console.error('Error fetching or processing XLSX:', error));
+})();
+</script>
+</body>
+</html>
