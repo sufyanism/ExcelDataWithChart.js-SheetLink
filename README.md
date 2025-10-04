@@ -1,4 +1,4 @@
-# Excel Data Visualization with Google Sheets and Chart.js
+# Get SpreadsheetData With Chart.js
 This project demonstrates how to fetch and visualize Excel data from a Google Sheets link using JavaScript, the XLSX library, and Chart.js. It displays two datasets in a bar chart, automatically handling data extraction and color assignment for clarity. To use, replace 'Add your Google Sheets link here' with your actual Google Sheets URL (preferably a direct download link in XLSX format). The code fetches the spreadsheet, converts it to JSON, extracts labels and values, and renders an interactive bar chart. This setup is ideal for dynamically visualizing spreadsheet data on web pages.
 
 </br>
